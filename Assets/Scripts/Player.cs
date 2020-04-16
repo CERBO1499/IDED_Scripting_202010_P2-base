@@ -2,9 +2,28 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
-public class Player : MonoBehaviour
+public  class Player : MonoBehaviour
 {
-    public const int PLAYER_LIVES = 3;
+    #region SingletonPlayer
+
+    public static Player _instance;
+
+    public void Awake()
+    {
+        if (_instance == null)
+        {
+            _instance = this;
+            DontDestroyOnLoad((this.gameObject));
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
+
+    #endregion
+   
+    private const int PLAYER_LIVES = 3;
 
     private const float PLAYER_RADIUS = 0.4F;
 
@@ -39,7 +58,12 @@ public class Player : MonoBehaviour
     #region StatsProperties
 
     public int Score { get; set; }
-    public int Lives { get; set; }
+    public static int playerLives
+    {
+        get => PLAYER_LIVES;
+        
+    }
+    public int Lives { get;  set; }
 
     #endregion StatsProperties
 
@@ -63,13 +87,28 @@ public class Player : MonoBehaviour
 
     private bool CanShoot { get => bulletSpawnPoint != null && bullet != null; }
 
+   
+
     #endregion MovementProperties
 
+    public ICommand healtCommand;
+    //public ICommand atackCommand;
+    
     public Action OnPlayerDied;
+   // public Action <int> OnPlayerScoreChanged;
+    public Action <int> OnPlayerHit;
+    
+    public Action <int>OnPlayerScoreChanged;
+
+    //private Target tgReference;
 
     // Start is called before the first frame update
     private void Start()
     {
+        
+        healtCommand = new HealtCommand(this);
+        //atackCommand = new AtackCommand(this,tgReference);
+        
         leftCameraBound = Camera.main.ViewportToWorldPoint(new Vector3(
             0F, 0F, 0F)).x + PLAYER_RADIUS;
 
@@ -79,15 +118,39 @@ public class Player : MonoBehaviour
         Lives = PLAYER_LIVES;
     }
 
-    // Update is called once per frame
-    private void Update()
+   public void ReciveDamage(int delta)
     {
+        Lives -= delta;
+        if (Lives > 0)
+        {
+            if (OnPlayerHit != null)
+            {
+                OnPlayerHit(delta);
+            }
+
+        }
+        else
+        {
+            if (OnPlayerDied != null)
+            {
+                OnPlayerDied();
+            }
+        }
         if (Lives <= 0)
         {
             this.enabled = false;
             gameObject.SetActive(false);
         }
-        else
+        
+        print("Recibiendo daño del command");
+        
+    }
+
+    
+    private void Update()
+    {
+        
+        if(Lives>0)
         {
             hVal = Input.GetAxis("Horizontal");
 
@@ -100,10 +163,30 @@ public class Player : MonoBehaviour
             if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
                 && CanShoot)
             {
-                Instantiate<Rigidbody>
+               /* Instantiate<Rigidbody>
                    (bullet, bulletSpawnPoint.position, bulletSpawnPoint.rotation)
-                   .AddForce(transform.up * bulletSpeed, ForceMode.Impulse);
+                   .AddForce(transform.up * bulletSpeed, ForceMode.Impulse);*/
+               
+               ShootBala();
+               
             }
+        }
+    }
+
+    void ShootBala()
+    {
+        PoolBalas.Instance.Get().transform.position = bulletSpawnPoint.position;
+        print("usandoPool");
+    }
+
+    public void ADDScore(int delta)
+    {
+        Score += delta;
+        print("ADDSCORE funcionando");
+
+        if (OnPlayerScoreChanged != null)
+        {
+            OnPlayerScoreChanged(delta);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
 public class Target : MonoBehaviour
@@ -13,10 +14,20 @@ public class Target : MonoBehaviour
     [SerializeField]
     private int scoreAdd = 10;
 
+    public int currentHp { get; set; }
+
+
+    
+
+    public ICommand atackCommand;
+    public ICommand healthCommand;
     private void Start()
     {
         currentHP = maxHP;
-        Destroy(gameObject, TIME_TO_DESTROY);
+        
+        //Destroy(gameObject, TIME_TO_DESTROY);
+        atackCommand = new AtackCommand(this);
+        
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -25,38 +36,55 @@ public class Target : MonoBehaviour
 
         if (collidedObjectLayer.Equals(Utils.BulletLayer))
         {
-            Destroy(collision.gameObject);
-
-            currentHP -= 1;
+            this.gameObject.SetActive(false);
+            PoolBalas.Instance.Return(collision.other.gameObject);
+            //Destroy(collision.gameObject);
+            
+            atackCommand.Execute();
 
             if (currentHP <= 0)
             {
-                Player player = FindObjectOfType<Player>();
-
-                if (player != null)
-                {
-                    player.Score += scoreAdd;
-                }
-
-                Destroy(gameObject);
+              
+               gameObject.SetActive(false);
+              
+                //Destroy(gameObject);
             }
         }
         else if (collidedObjectLayer.Equals(Utils.PlayerLayer) ||
             collidedObjectLayer.Equals(Utils.KillVolumeLayer))
         {
-            Player player = FindObjectOfType<Player>();
+            
 
-            if (player != null)
+            if (Player._instance != null)
             {
-                player.Lives -= 1;
+                Player._instance.healtCommand.Execute();
+                //player.Lives -= 1;
 
-                if (player.Lives <= 0 && player.OnPlayerDied != null)
+                if (Player._instance.Lives <= 0 && Player._instance.OnPlayerDied != null)
                 {
-                    player.OnPlayerDied();
+                    Player._instance.OnPlayerDied();
                 }
             }
-
-            Destroy(gameObject);
+            this.gameObject.SetActive(false);
+            //Destroy(gameObject);
         }
     }
+    
+    public void RecibeDamageEnemy(int delta)
+    {
+        currentHp -= delta;
+        print("USANDO EL MAKE DAMAGE");
+        
+        
+        if (Player._instance != null)
+        {
+            Player._instance.ADDScore(scoreAdd);
+        }
+
+            
+    }
+    
+    
+    
+   
 }

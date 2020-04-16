@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\USUARIO\.Rider2019.2\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\USUARIO\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_IDED_Scripting_202010_P2-base.-1428682972.00" t="ExcludeRecursive" />
+    <e p="E:\Scripting\PARCIAL 2\IDED_Scripting_202010_P2-base" t="IncludeRecursive">
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="Scripts" t="Include">
+          <e p="AtackCommand.cs" t="Include" />
+          <e p="HealtCommand.cs" t="Include" />
+          <e p="ICommand.cs" t="Include" />
+          <e p="MoveBullet.cs" t="Include" />
+          <e p="Player.cs" t="Include" />
+          <e p="PoolBalas.cs" t="Include" />
+          <e p="PoolHazard.cs" t="Include" />
+          <e p="SpawnController.cs" t="Include" />
+          <e p="Target.cs" t="Include" />
+          <e p="UIController.cs" t="Include" />
+          <e p="Utils.cs" t="Include" />
+        </e>
+      </e>
+      <e p="IDED_Scripting_202010_P2-base.sln" t="IncludeFlat" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="Packages" t="ExcludeRecursive" />
+      <e p="Temp\bin" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>

@@ -1112,6 +1112,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1134325182}
+  - component: {fileID: 1134325183}
   - component: {fileID: 1134325181}
   m_Layer: 0
   m_Name: SpawnController
@@ -1138,7 +1139,10 @@ MonoBehaviour:
   - {fileID: 2627135051368097643, guid: a57facc0ab4ba144e8a7de39761c5d6e, type: 3}
   spawnRate: 1.25
   firstSpawnDelay: 0
-  player: {fileID: 2018314408}
+  timer: 0
+  timeBetwenSpawns: 2
+  xValue: -17
+  xValue2: 17
 --- !u!4 &1134325182
 Transform:
   m_ObjectHideFlags: 0
@@ -1147,12 +1151,29 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1134325180}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 2}
+  m_LocalPosition: {x: 0, y: 11.05, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1134325183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1134325180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70c5cda23a6040e488fc3d0c248f3c5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  References:
+  - {fileID: 2627135051368097643, guid: b5f0d6b4e9ba9704a9e36c5bac0a930b, type: 3}
+  - {fileID: 2627135051368097643, guid: 66c2fad4b964999488879a54fc3c5564, type: 3}
+  - {fileID: 2627135051368097643, guid: a57facc0ab4ba144e8a7de39761c5d6e, type: 3}
+  starSize: 10
 --- !u!1 &1181273066
 GameObject:
   m_ObjectHideFlags: 0
@@ -1187,7 +1208,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 29.999725, y: -68.50003}
+  m_AnchoredPosition: {x: 29.999695, y: -68.50003}
   m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1181273068
@@ -1389,6 +1410,7 @@ GameObject:
   - component: {fileID: 2018314405}
   - component: {fileID: 2018314404}
   - component: {fileID: 2018314408}
+  - component: {fileID: 2018314409}
   m_Layer: 9
   m_Name: Player
   m_TagString: Untagged
@@ -1486,3 +1508,18 @@ MonoBehaviour:
   bullet: {fileID: 5769844902801545485, guid: 659cbe9196140434f8585826b82346ba, type: 3}
   bulletSpawnPoint: {fileID: 8458616}
   bulletSpeed: 10
+--- !u!114 &2018314409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2018314403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bcc46ef65e51aa44845bdb788ad7af9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  balasPrefab: {fileID: 2964337092940765685, guid: 659cbe9196140434f8585826b82346ba,
+    type: 3}
+  initialAmount: 50

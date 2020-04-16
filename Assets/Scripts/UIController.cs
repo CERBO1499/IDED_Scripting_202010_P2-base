@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
-    private Player playerRef;
+    
 
     [SerializeField]
     private Image[] lifeImages;
@@ -28,9 +28,16 @@ public class UIController : MonoBehaviour
     {
         ToggleRestartButton(false);
 
-        playerRef = FindObjectOfType<Player>();
 
-        if (playerRef != null && lifeImages.Length == Player.PLAYER_LIVES)
+        scoreLabel.text = "0";
+        Player._instance.OnPlayerHit += UpdateUI;
+        Player._instance.OnPlayerScoreChanged += actualizarScore;
+        Player._instance.OnPlayerDied += muerto;
+        
+      //  Player._instance.OnPlayerScoreChanged += UpdateUI;
+        
+
+        if (Player._instance != null && lifeImages.Length == Player.playerLives)
         {
             InvokeRepeating("UpdateUI", 0F, tickRate);
         }
@@ -44,22 +51,19 @@ public class UIController : MonoBehaviour
         }
     }
 
-    private void UpdateUI()
+    
+    private void UpdateUI(int Lives)
     {
         for (int i = 0; i < lifeImages.Length; i++)
         {
             if (lifeImages[i] != null && lifeImages[i].enabled)
             {
-                lifeImages[i].gameObject.SetActive(playerRef.Lives >= i + 1);
+                lifeImages[i].gameObject.SetActive(Player._instance.Lives >= i + 1);
+                print("Usando el que es");
             }
         }
 
-        if (scoreLabel != null)
-        {
-            scoreLabel.text = playerRef.Score.ToString();
-        }
-
-        if (playerRef.Lives <= 0)
+        /*if (Player._instance.Lives <= 0)
         {
             CancelInvoke();
 
@@ -69,6 +73,28 @@ public class UIController : MonoBehaviour
             }
 
             ToggleRestartButton(true);
+        }*/
+    }
+
+    private void muerto()
+    {
+        if (Player._instance.Lives <= 0)
+        {
+            CancelInvoke();
+
+            if (scoreLabel != null)
+            {
+                scoreLabel.text = "Game Over";
+            }
+
+            ToggleRestartButton(true);
+        }
+    }
+    private void actualizarScore(int Score)
+    {
+        if (scoreLabel != null)
+        {
+            scoreLabel.text = Player._instance.Score.ToString();
         }
     }
 }
