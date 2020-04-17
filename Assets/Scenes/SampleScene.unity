@@ -1522,4 +1522,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   balasPrefab: {fileID: 2964337092940765685, guid: 659cbe9196140434f8585826b82346ba,
     type: 3}
-  initialAmount: 50
+  initialAmount: 40
